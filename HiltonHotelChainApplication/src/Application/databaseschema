@@ -1,0 +1,37 @@
+
+/************************* Hotel Table **************************/
+CREATE TABLE Hotel (
+    hotel_id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    location VARCHAR(255) NOT NULL
+);
+
+/************************* Guests Table **************************/
+CREATE TABLE Guests (
+    guest_id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    hotel_id INT REFERENCES Hotel(hotel_id)
+);
+
+/************************* Room Table **************************/
+CREATE TYPE room_type AS ENUM ('single', 'double');
+
+CREATE TABLE Rooms (
+    room_id SERIAL PRIMARY KEY NOT NULL,
+    type room_type NOT NULL,
+    available BOOLEAN NOT NULL,
+    hotel_id INT REFERENCES Hotel(hotel_id)
+);
+
+/************************* Reservation Table **************************/
+
+CREATE TABLE Reservations (
+    reservation_id SERIAL PRIMARY KEY NOT NULL,
+    guest_id INTEGER REFERENCES Guests(guest_id),
+    hotel_id INTEGER REFERENCES Hotel(hotel_id),
+    checkInDate DATE NOT NULL,
+    checkOutDate DATE NOT NULL,
+    status VARCHAR(50) NOT NULL
+);
